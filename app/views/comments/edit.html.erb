@@ -1,0 +1,8 @@
+<% content_for :title, "Edit Comment" %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h1>Edit Comment</h1>
+  <%= link_to "Back to Posts", posts_path, class: "btn btn-secondary" %>
+</div>
+
+<%= render 'form', comment: @comment %>

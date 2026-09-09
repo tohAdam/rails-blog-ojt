@@ -1,0 +1,26 @@
+<% content_for :title, "Log In" %>
+
+<div style="max-width: 28rem; margin: 4rem auto;">
+  <%= form_with url: session_path do |form| %>
+    <h1 style="margin-bottom: 2rem; text-align: center;">Log In</h1>
+
+    <div class="form-group">
+      <%= form.label :email_address, "Email Address" %><br>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password %><br>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <%= form.submit "Log In", class: "btn", style: "width: 100%;" %>
+    </div>
+
+    <div style="margin-top: 1.5rem; text-align: center; display: flex; flex-direction: column; gap: 0.5rem;">
+      <%= link_to "Forgot password?", new_password_path, style: "color: var(--accent-color);" %>
+      <%= link_to "Don't have an account? Sign up", new_registration_path, style: "color: var(--text-color); font-size: 0.9rem;" %>
+    </div>
+  <% end %>
+</div>

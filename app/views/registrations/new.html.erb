@@ -1,0 +1,40 @@
+<% content_for :title, "Sign Up" %>
+
+<div style="max-width: 28rem; margin: 4rem auto;">
+  <%= form_with model: @user, url: registration_path do |form| %>
+    <h1 style="margin-bottom: 2rem; text-align: center;">Sign Up</h1>
+
+    <% if @user.errors.any? %>
+      <div style="color: #ef4444; margin-bottom: 1rem; padding: 1rem; border: 1px solid #fca5a5; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.1);">
+        <ul style="list-style: disc; margin-left: 1.5rem;">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :email_address, "Email Address" %><br>
+      <%= form.email_field :email_address, required: true, autofocus: true, placeholder: "you@example.com" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password %><br>
+      <%= form.password_field :password, required: true, maxlength: 72, placeholder: "Enter a strong password" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password_confirmation, "Confirm Password" %><br>
+      <%= form.password_field :password_confirmation, required: true, maxlength: 72, placeholder: "Confirm your password" %>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <%= form.submit "Sign Up", class: "btn", style: "width: 100%;" %>
+    </div>
+
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <%= link_to "Already have an account? Log in", new_session_path, style: "color: var(--accent-color);" %>
+    </div>
+  <% end %>
+</div>

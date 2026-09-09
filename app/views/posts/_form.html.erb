@@ -1,0 +1,40 @@
+<%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: #ef4444; margin-bottom: 1rem; padding: 1rem; border: 1px solid #fca5a5; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.1);">
+      <h2 style="font-size: 1.1rem; margin-bottom: 0.5rem;"><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul style="list-style: disc; margin-left: 1.5rem;">
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title %><br>
+    <%= form.text_field :title, placeholder: "Enter post title..." %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :body %><br>
+    <%= form.text_area :body, placeholder: "Write your post content here..." %>
+  </div>
+
+  <% if post.new_record? %>
+    <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+      <h3 style="margin-bottom: 1rem; color: var(--accent-color);">Add an initial comment (optional)</h3>
+      <%= form.fields_for :comments do |comment_form| %>
+        <div class="form-group">
+          <%= comment_form.label :body, "Comment Body" %><br>
+          <%= comment_form.text_area :body, placeholder: "Write a comment to start the discussion..." %>
+        </div>
+        
+        <%= comment_form.hidden_field :commenter, value: Current.user&.email_address || "Anonymous" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 2rem;">
+    <%= form.submit class: "btn", style: "width: 100%;" %>
+  </div>
+<% end %>

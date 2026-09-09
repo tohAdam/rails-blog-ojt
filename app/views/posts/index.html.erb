@@ -1,0 +1,49 @@
+
+
+<% content_for :title, "Blog Posts" %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h1>Blog Posts</h1>
+  <% if authenticated? %>
+    <%= link_to "New Post", new_post_path, class: "btn" %>
+  <% end %>
+</div>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <% if authenticated? %>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: -2rem; position: relative; z-index: 10;">
+          <%= link_to "Edit", edit_post_path(post), class: "btn btn-secondary", style: "padding: 0.25rem 0.75rem; font-size: 0.8rem;" %>
+        </div>
+      <% end %>
+
+      <%= render post %>
+      
+      <% if authenticated? %>
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <button id="show-comment-form-btn-<%= post.id %>" class="btn btn-secondary" style="border-color: var(--accent-color); color: var(--accent-color) !important;" onclick="document.getElementById('comment-form-container-<%= post.id %>').style.display='block'; this.style.display='none';">Add a comment</button>
+        </div>
+      <% end %>
+
+      <% if post.comments.any? { |c| c.persisted? } %>
+        <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+          <h3 style="font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">Comments</h3>
+          <%= render post.comments.reject(&:new_record?) %>
+        </div>
+      <% end %>
+
+      <% if authenticated? %>
+        <div id="comment-form-container-<%= post.id %>" style="display: none; margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+          <%= render 'comments/form', comment: post.comments.build, show_cancel: true, post: post %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  
+  <% if @posts.empty? %>
+    <div class="post" style="text-align: center; padding: 3rem;">
+      <p style="color: var(--text-color); font-size: 1.1rem;">No posts yet. Start by creating one!</p>
+    </div>
+  <% end %>
+</div>
